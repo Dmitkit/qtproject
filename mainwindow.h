@@ -6,8 +6,6 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
-#include "loginwindow.h"
-
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -32,5 +30,7 @@ private:
 public:
     void onEnterClicked();
     void onLeaveClicked();
+public slots:
+    void acceptUserLogin();
 };
 #endif // MAINWINDOW_H

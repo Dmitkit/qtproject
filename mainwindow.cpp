@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include "loginwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -24,10 +25,12 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::onEnterClicked(){
-    play->setEnabled(true);
-    enter->setText("Выйти");
-    QObject::disconnect(enter, &QPushButton::clicked, this, &MainWindow::onEnterClicked);
-    QObject::connect(enter, &QPushButton::clicked, this, &MainWindow::onLeaveClicked);
+    LoginDialog* loginDialog = new LoginDialog(this);
+    connect (loginDialog,
+            &LoginDialog::accepted,
+            this,
+            &MainWindow::acceptUserLogin);
+    loginDialog->exec();
 }
 
 void MainWindow::onLeaveClicked(){
@@ -35,4 +38,11 @@ void MainWindow::onLeaveClicked(){
     enter->setText("Войти");
     QObject::disconnect(enter, &QPushButton::clicked, this, &MainWindow::onLeaveClicked);
     QObject::connect(enter, &QPushButton::clicked, this, &MainWindow::onEnterClicked);
+}
+
+void MainWindow::acceptUserLogin(){
+    play->setEnabled(true);
+    enter->setText("Выйти");
+    QObject::disconnect(enter, &QPushButton::clicked, this, &MainWindow::onEnterClicked);
+    QObject::connect(enter, &QPushButton::clicked, this, &MainWindow::onLeaveClicked);
 }
